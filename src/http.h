@@ -1,7 +1,6 @@
 #ifndef HTTP_H
 #define HTTP_H
 
-// Http request methods
 enum class HttpMethod
 {
   GET,
@@ -10,7 +9,6 @@ enum class HttpMethod
   DELETE
 };
 
-// Http response status code
 enum class HttpStatusCode
 {
   OK = 200,
@@ -24,4 +22,4 @@ enum class HttpStatusCode
 std::string toString(const HttpStatusCode &statusCode);
 HttpMethod toHttpMethod(const std::string &methodStr);
 
-#endif // HTTP_H
+#endif
