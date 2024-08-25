@@ -20,7 +20,7 @@ HttpResponse about(HttpRequest& request, StaticContentRegister& staticContentReg
     std::string content = "<h1>This is a about page</h1>";
     HttpResponse response;
     response.setStatusCode(HttpStatusCode::OK);
-    response.setContent("text/html", content);
+    response.setContent(content, "text/html");
 
     return response;
 }
