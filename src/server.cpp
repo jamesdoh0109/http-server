@@ -129,7 +129,7 @@ void *Server::handleRequest(void *arg)
         HttpResponse response;
         if (handler)
         {
-            response = handler(request);
+            response = handler(request, *staticContentRegister);
         }
         else if (staticContentRegister->isFileExist(request.getRequestPath()))
         {
@@ -139,7 +139,7 @@ void *Server::handleRequest(void *arg)
         else
         {
             response.setStatusCode(HttpStatusCode::NOT_FOUND);
-            response.setContent("text/html", "<h3>Page not found</h3>");
+            response.setContent("<h3>Page not found</h3>", "text/html");
         }
 
         std::string rawResponse = response.getRawResponseString();
