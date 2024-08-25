@@ -2,16 +2,19 @@
 #include "http.h"
 #include "http_response.h"
 
-void HttpResponse::setStatusCode(HttpStatusCode statusCode) {
+void HttpResponse::setStatusCode(HttpStatusCode statusCode)
+{
     this->statusCode = statusCode;
 }
 
-void HttpResponse::setContent(std::string contentType, std::string content) {
-    this->contentType = contentType;
+void HttpResponse::setContent(std::string content, std::string contentType)
+{
     this->content = content;
+    this->contentType = contentType;
 }
 
-const std::string HttpResponse::getRawResponseString(void) {
+const std::string HttpResponse::getRawResponseString(void)
+{
     std::ostringstream outputStream;
     outputStream << "HTTP/1.1 " << static_cast<int>(statusCode) << " ";
     outputStream << toString(statusCode) << "\r\n";
@@ -22,9 +25,10 @@ const std::string HttpResponse::getRawResponseString(void) {
     return outputStream.str();
 }
 
-HttpResponse HttpResponse::getOkResponse(std::string content, std::string contentType) {
+HttpResponse HttpResponse::getOkResponse(std::string content, std::string contentType)
+{
     HttpResponse response;
-    response.setContent(contentType, content);
+    response.setContent(content, contentType);
     response.setStatusCode(HttpStatusCode::OK);
 
     return response;

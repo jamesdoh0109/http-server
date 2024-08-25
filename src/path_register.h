@@ -6,9 +6,10 @@
 #include "http.h"
 #include "http_request.h"
 #include "http_response.h"
+#include "static_content_register.h"
 
 // handle function pointer type
-using HandlerType = HttpResponse(HttpRequest &);
+using HandlerType = HttpResponse(HttpRequest&, StaticContentRegister&);
 
 struct PathEntry
 {

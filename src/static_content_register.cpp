@@ -1,23 +1,19 @@
 #include <utility>
 #include <string>
 #include <sstream>
-#include <iostream>
 #include <fstream>
 #include <unordered_map>
 #include <filesystem>
 #include "static_content_register.h"
 
-StaticContentRegister::StaticContentRegister(std::string directory)
+StaticContentRegister::StaticContentRegister(std::string directory): baseDirectory(directory)
 {
     findAllFiles(directory);
 }
 
 std::pair<std::string, std::string> StaticContentRegister::getFileContent(std::string filepath)
 {
-    printf("Test: %s\n", filepath.c_str());
-    filepath = "." + filepath;
-    printf("Test: %s\n", filepath.c_str());
-    auto fileMap = staticFilesMapping.find(filepath);
+    auto fileMap = staticFilesMapping.find(baseDirectory + filepath);
     if (fileMap == staticFilesMapping.end())
     {
         printf("Error: File not found");
@@ -25,7 +21,7 @@ std::pair<std::string, std::string> StaticContentRegister::getFileContent(std::s
     }
 
     // Read file content
-    std::string content = readFile(filepath);
+    std::string content = readFile(baseDirectory + filepath);
 
     return {content, fileMap->second};
 }
@@ -44,7 +40,6 @@ void StaticContentRegister::findAllFiles(std::string directory)
         if (directoryEntry.is_regular_file())
         {
             staticFilesMapping[directoryEntry.path()] = getContentType(directoryEntry.path());
-            std::cout << directoryEntry.path() << std::endl;
         }
     }
 }
@@ -106,5 +101,5 @@ std::string StaticContentRegister::getExtension(std::string filepath)
 
 bool StaticContentRegister::isFileExist(std::string filepath)
 {
-    return staticFilesMapping.find("." + filepath) != staticFilesMapping.end();
+    return staticFilesMapping.find(baseDirectory + filepath) != staticFilesMapping.end();
 }

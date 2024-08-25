@@ -129,7 +129,7 @@ void *Server::handleRequest(void *arg)
         HttpResponse response;
         if (handler)
         {
-            response = handler(request);
+            response = handler(request, *staticContentRegister);
         }
         else if (staticContentRegister->isFileExist(request.getRequestPath()))
         {

@@ -7,6 +7,7 @@
 
 class StaticContentRegister
 {
+    std::string baseDirectory;
     std::unordered_map<std::string, std::string> staticFilesMapping;
     void findAllFiles(std::string directory);
     std::string readFile(std::string filepath);
@@ -14,7 +15,7 @@ class StaticContentRegister
     std::string getExtension(std::string filepath);
 
 public:
-    StaticContentRegister() {}
+    StaticContentRegister(): baseDirectory(".") {}
     StaticContentRegister(std::string directory);
     std::pair<std::string, std::string> getFileContent(std::string filepath);
     bool isFileExist(std::string filepath);

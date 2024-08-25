@@ -12,7 +12,7 @@ class HttpResponse {
 public:
     HttpResponse(): statusCode(HttpStatusCode::OK), contentType("text/html"), content("") {}
     void setStatusCode(HttpStatusCode statusCode);
-    void setContent(std::string contentType, std::string content);
+    void setContent(std::string content, std::string contentType);
     const std::string getRawResponseString(void);
 
     // Static methods
