@@ -4,18 +4,18 @@
 #include "path_register.h"
 #include "static_content_register.h"
 
-HttpResponse index(HttpRequest& request, StaticContentRegister& staticContentRegister)
+HttpResponse index(HttpRequest &request, StaticContentRegister &staticContentRegister)
 {
-    std::pair<std::string, std::string> fileContent = 
+    std::pair<std::string, std::string> fileContent =
         staticContentRegister.getFileContent("/index.html");
     HttpResponse response;
     response.setStatusCode(HttpStatusCode::OK);
     response.setContent(fileContent.first, fileContent.second);
-    
+
     return response;
 }
 
-HttpResponse about(HttpRequest& request, StaticContentRegister& staticContentRegister)
+HttpResponse about(HttpRequest &request, StaticContentRegister &staticContentRegister)
 {
     std::string content = "<h1>This is a about page</h1>";
     HttpResponse response;
@@ -25,7 +25,17 @@ HttpResponse about(HttpRequest& request, StaticContentRegister& staticContentReg
     return response;
 }
 
-int main(int argc, char* argv[])
+HttpResponse greet(HttpRequest &request, StaticContentRegister &staticContentRegister)
+{
+    std::string content = "<h1>Hello, " + request.getRequestPath().substr(7) + "</h1>";
+    HttpResponse response;
+    response.setStatusCode(HttpStatusCode::OK);
+    response.setContent(content, "text/html");
+
+    return response;
+}
+
+int main(int argc, char *argv[])
 {
     // Find all the static files along with type
     StaticContentRegister staticContentRegister("./static_files");
@@ -34,7 +44,8 @@ int main(int argc, char* argv[])
     pathRegister.addPath("/", HttpMethod::GET, index);
     pathRegister.addPath("/home", HttpMethod::GET, index);
     pathRegister.addPath("/about", HttpMethod::GET, about);
-    
+    pathRegister.addPath("/greet/{name}", HttpMethod::GET, greet);
+
     Server server;
     server.setPathRegister(pathRegister);
     server.setStaticContentRegister(staticContentRegister);
